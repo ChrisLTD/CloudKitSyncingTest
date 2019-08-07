@@ -14,6 +14,7 @@
 		4961301322F107FE00421EFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4961301122F107FE00421EFA /* Main.storyboard */; };
 		4961301522F1080100421EFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4961301422F1080100421EFA /* Assets.xcassets */; };
 		4961301822F1080100421EFA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4961301622F1080100421EFA /* LaunchScreen.storyboard */; };
+		4961302222F1082C00421EFA /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4961302122F1082C00421EFA /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		4961301422F1080100421EFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4961301722F1080100421EFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4961301922F1080100421EFA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4961301F22F1082900421EFA /* CloudKitSyncingTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CloudKitSyncingTest.entitlements; sourceTree = "<group>"; };
+		4961302122F1082C00421EFA /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4961302222F1082C00421EFA /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +48,7 @@
 			children = (
 				4961300722F107FE00421EFA /* CloudKitSyncingTest */,
 				4961300622F107FE00421EFA /* Products */,
+				4961302022F1082C00421EFA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +63,7 @@
 		4961300722F107FE00421EFA /* CloudKitSyncingTest */ = {
 			isa = PBXGroup;
 			children = (
+				4961301F22F1082900421EFA /* CloudKitSyncingTest.entitlements */,
 				4961300822F107FE00421EFA /* AppDelegate.swift */,
 				4961300D22F107FE00421EFA /* MasterViewController.swift */,
 				4961300F22F107FE00421EFA /* DetailViewController.swift */,
@@ -68,6 +74,14 @@
 				4961300A22F107FE00421EFA /* CloudKitSyncingTest.xcdatamodeld */,
 			);
 			path = CloudKitSyncingTest;
+			sourceTree = "<group>";
+		};
+		4961302022F1082C00421EFA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4961302122F1082C00421EFA /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,6 +302,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CloudKitSyncingTest/CloudKitSyncingTest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8G5N6F45D6;
 				INFOPLIST_FILE = CloudKitSyncingTest/Info.plist;
@@ -306,6 +321,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CloudKitSyncingTest/CloudKitSyncingTest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8G5N6F45D6;
 				INFOPLIST_FILE = CloudKitSyncingTest/Info.plist;
