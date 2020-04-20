@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import BackgroundTasks
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -26,12 +28,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let controller = masterNavigationController.topViewController as! MasterViewController
         controller.managedObjectContext = self.persistentContainer.viewContext
         controller.managedObjectContext?.automaticallyMergesChangesFromParent = true // sync faster?
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            if(granted) {
+                print("notification authorization granted")
+            }
+            else {
+                print("notification authorization denied")
+            }
+        }
+        
+        BGTaskScheduler.shared.register(
+          forTaskWithIdentifier: "com.yoeyo.CloudKitSyncingTest.registerNotifications",
+          using: nil) { (task) in
+            self.handleAppRefreshTask(task: task as! BGAppRefreshTask)
+        }
+        
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        scheduleBackgroundTask()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -102,6 +121,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+    
+    // MARK: - Background app tasks
+    func scheduleBackgroundTask() {
+        print("scheduling bg task")
+        let task = BGAppRefreshTaskRequest(identifier: "com.yoeyo.CloudKitSyncingTest.registerNotifications")
+        task.earliestBeginDate = Date(timeIntervalSinceNow: 60)
+        do {
+          try BGTaskScheduler.shared.submit(task)
+            print("submitting task")
+        } catch {
+          print("Unable to submit task: \(error.localizedDescription)")
+        }
+    }
+    
+    func handleAppRefreshTask(task: BGAppRefreshTask) {
+        
+        print("handling app refresh task")
+        
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: 6,
+            repeats: false
+        )
+        
+        let notification = UNMutableNotificationContent()
+        notification.body = "Notification from CloudKitSyncingTest"
+        notification.sound = UNNotificationSound.default
+        
+        UNUserNotificationCenter.current().add(
+            UNNotificationRequest(
+                identifier: "test-notification",
+                content: notification,
+                trigger: trigger
+            )
+        )
+        
+        task.setTaskCompleted(success: true)
     }
 
 }
