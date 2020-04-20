@@ -146,10 +146,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
     }
     
     func scheduleTestNotification(message: String) {
-        let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: 6,
-            repeats: false
-        )
+//        let trigger = UNTimeIntervalNotificationTrigger(
+//            timeInterval: 6,
+//            repeats: false
+//        )
         
         print("scheduling notification")
         
@@ -162,15 +162,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         let request = UNNotificationRequest(
             identifier: "test-notification",
             content: notification,
-            trigger: trigger
+            trigger: nil
         )
         
         UNUserNotificationCenter.current().add(request) { (error) in
             if let error = error {
-                print("Unable to add notification : \(error.localizedDescription)")
+                print("Unable to add notification: \(error.localizedDescription)")
             }
             else {
-                print("Scheduled : ", request.identifier)
+                print("Scheduled: ", request.identifier)
             }
         }
     }
