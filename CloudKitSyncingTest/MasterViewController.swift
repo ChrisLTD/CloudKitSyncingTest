@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate, UNUserNotificationCenterDelegate {
 
     var detailViewController: DetailViewController? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
@@ -26,6 +26,10 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
         }
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        (UIApplication.shared.delegate as! AppDelegate).scheduleTestNotification(message: "Onload notification")
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -189,6 +193,12 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
          tableView.reloadData()
      }
      */
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        completionHandler([.alert, .sound])
+        
+    }
 
 }
 

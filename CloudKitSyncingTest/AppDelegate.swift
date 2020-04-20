@@ -140,24 +140,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         print("handling app refresh task")
         
+        scheduleTestNotification(message: "Background Refresh notification")
+        
+        task.setTaskCompleted(success: true)
+    }
+    
+    func scheduleTestNotification(message: String) {
         let trigger = UNTimeIntervalNotificationTrigger(
             timeInterval: 6,
             repeats: false
         )
         
+        print("scheduling notification")
+        
         let notification = UNMutableNotificationContent()
-        notification.body = "Notification from CloudKitSyncingTest"
+        notification.title = "CloudKitSyncingTest"
+        notification.categoryIdentifier = "Test Category"
+        notification.body = message
         notification.sound = UNNotificationSound.default
         
-        UNUserNotificationCenter.current().add(
-            UNNotificationRequest(
-                identifier: "test-notification",
-                content: notification,
-                trigger: trigger
-            )
+        let request = UNNotificationRequest(
+            identifier: "test-notification",
+            content: notification,
+            trigger: trigger
         )
         
-        task.setTaskCompleted(success: true)
+        UNUserNotificationCenter.current().add(request) { (error) in
+            if let error = error {
+                print("Unable to add notification : \(error.localizedDescription)")
+            }
+            else {
+                print("Scheduled : ", request.identifier)
+            }
+        }
     }
 
 }
